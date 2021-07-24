@@ -8,6 +8,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
+	"net/http"
 	"os"
 )
 
@@ -28,9 +29,13 @@ func Activate() error {
 	{
 		restaurant := v1.Group("/restaurant")
 		{
-			restaurant.POST("", ginrestaurant.CreateRestaurant(appContext))
+			restaurant.POST("/", ginrestaurant.CreateRestaurant(appContext))
 		}
 	}
+	route.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"message": "pong"})
+	})
+	route.Run()
 	return nil
 }
 
