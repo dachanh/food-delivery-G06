@@ -29,7 +29,7 @@ func Activate() error {
 	{
 		restaurant := v1.Group("/restaurant")
 		{
-			restaurant.POST("/", ginrestaurant.CreateRestaurant(appContext))
+			restaurant.POST("", ginrestaurant.CreateRestaurant(appContext))
 		}
 	}
 	route.GET("/ping", func(c *gin.Context) {
