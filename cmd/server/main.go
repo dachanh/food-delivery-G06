@@ -1,6 +1,9 @@
 package main
 
 import (
+	"github.com/dachanh/food-delivery-G06/component/appctx"
+	ginrestaurant "github.com/dachanh/food-delivery-G06/module/restaurant/transport/gin"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -18,8 +21,16 @@ func Activate() error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	sqlDB, err := db.DB()
-	sqlDB.Ping()
+	db = db.Debug()
+	appContext := appctx.NewAppContext(db)
+	route := gin.Default()
+	v1 := route.Group("/v1")
+	{
+		restaurant := v1.Group("/restaurant")
+		{
+			restaurant.POST("", ginrestaurant.CreateRestaurant(appContext))
+		}
+	}
 	return nil
 }
 
