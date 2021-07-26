@@ -33,10 +33,10 @@ func (r *RegisterBusiness) Register(ctx context.Context, data *usermodel.UserCre
 	if user != nil {
 		return errors.New("Email is Existed")
 	}
-	sail := common.GenSalt(75)
+	sail := common.GenSalt(25)
 	data.Password = r.hash.Hash(sail + data.Password)
 	data.Salt = sail
-
+	data.Role = "user"
 	if err := r.registerStorage.CreateUser(ctx, data); err != nil {
 		return err
 	}
