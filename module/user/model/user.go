@@ -13,3 +13,5 @@ type User struct {
 	Role      string        `json:"role"gorm:"column:role;"`
 	Avatar    *common.Image `json:"avatar,omitempty" gorm:"column:avatar;type:json"`
 }
+
+func (u User) TableName() string { return "users" }

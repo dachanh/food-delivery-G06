@@ -1,11 +1,11 @@
-package restaurantstorage
+package userstorage
 
 import (
 	"context"
-	restaurantmodel "github.com/dachanh/food-delivery-G06/module/restaurant/model"
+	usermodel "github.com/dachanh/food-delivery-G06/module/user/model"
 )
 
-func (s *sqlStore) Create(ctx context.Context, data *restaurantmodel.RestaurantCreate) error {
+func (s *sqlStore) CreateUser(ctx context.Context, data *usermodel.User) error {
 	db := s.db.Begin()
 	if err := db.Table(data.TableName()).Create(data).Error; err != nil {
 		db.Rollback()
