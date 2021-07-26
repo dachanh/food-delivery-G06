@@ -1,13 +1,19 @@
 package usermodel
 
 import (
+	"errors"
 	"github.com/dachanh/food-delivery-G06/common"
+)
+
+var (
+	ErrEmailorPasswordInvalid = errors.New("email or password invalid")
+	ErrEmailExisted           = errors.New("Email is Existed")
 )
 
 type User struct {
 	common.SQLModel
 	Email     string        `json:"email"gorm:"column:email;"`
-	Password  string        `json:"-" gorm:"column:password;"`
+	Password  string        `json:"password" gorm:"column:password;"`
 	Salt      string        `json:"-" gorm:"column:salt;"`
 	LastName  string        `json:"last_name"gorm:"column:last_name;"`
 	FirstName string        `json:"first_name" gorm:"column:first_name;"`
@@ -21,7 +27,7 @@ func (u User) TableName() string { return "users" }
 type UserCreate struct {
 	common.SQLModel
 	Email     string        `json:"email"gorm:"column:email;"`
-	Password  string        `json:"-" gorm:"column:password;"`
+	Password  string        `json:"password" gorm:"column:password;"`
 	Salt      string        `json:"-" gorm:"column:salt;"`
 	LastName  string        `json:"last_name"gorm:"column:last_name;"`
 	FirstName string        `json:"first_name" gorm:"column:first_name;"`
@@ -31,3 +37,12 @@ type UserCreate struct {
 }
 
 func (u UserCreate) TableName() string { return User{}.TableName() }
+
+type UserLogin struct {
+	Email    string `json:"email" form:"email" gorm:"column:email;"`
+	Password string `json:"password" form:"password" gorm:"column:password;"`
+}
+
+func (UserLogin) TableName() string {
+	return User{}.TableName()
+}

@@ -24,13 +24,17 @@ func Activate() error {
 		log.Fatal(err)
 	}
 	db = db.Debug()
-	appContext := appctx.NewAppContext(db)
+	appContext := appctx.NewAppContext(db, "helloworld")
 	route := gin.Default()
 	v1 := route.Group("/v1")
 	{
 		user := v1.Group("/user")
 		{
 			user.POST("", ginuser.Register(appContext))
+		}
+		login := v1.Group("/login")
+		{
+			login.POST("", ginuser.Login(appContext))
 		}
 		restaurant := v1.Group("/restaurant")
 		{

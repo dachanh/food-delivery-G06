@@ -1,6 +1,9 @@
 package tokenprovider
 
-import "time"
+import (
+	"errors"
+	"time"
+)
 
 type Token struct {
 	Token   string    `json:"token"`
@@ -12,5 +15,12 @@ type TokenPayLoad struct {
 	Role   string `json:"role"`
 }
 type Provider interface {
-	Generate(data Token)
+	Generate(data TokenPayLoad, expiry int) (*Token, error)
+	Validate(token string) (*TokenPayLoad, error)
 }
+
+var (
+	ErrNotFound      = errors.New("token not found")
+	ErrEncodingTokne = errors.New("error encoding the token")
+	ErrInvalidToken  = errors.New("invalid token provided")
+)

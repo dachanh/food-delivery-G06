@@ -2,12 +2,11 @@ package ginuser
 
 import (
 	"github.com/dachanh/food-delivery-G06/component/appctx"
-	hasher2 "github.com/dachanh/food-delivery-G06/component/hasher"
+	"github.com/dachanh/food-delivery-G06/component/hasher"
 	userbusiness "github.com/dachanh/food-delivery-G06/module/user/business"
 	usermodel "github.com/dachanh/food-delivery-G06/module/user/model"
 	userstorage "github.com/dachanh/food-delivery-G06/module/user/storage"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 )
 
@@ -19,9 +18,8 @@ func Register(appContext appctx.AppContext) func(*gin.Context) {
 			panic(err)
 		}
 		store := userstorage.NewSqlStore(db)
-		hasher := hasher2.NewMd5Hash()
-		biz := userbusiness.NewUserRegister(store, hasher)
-		log.Println(data)
+		md5 := hasher.NewMd5Hash()
+		biz := userbusiness.NewUserRegister(store, md5)
 		if err := biz.Register(c.Request.Context(), &data); err != nil {
 			panic(err)
 		}
