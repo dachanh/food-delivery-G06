@@ -23,7 +23,6 @@ func CreateRestaurant(appContext appctx.AppContext) func(ctx *gin.Context) {
 		biz := businessrestaurant.NewCreateRestaurantBiz(store)
 		err := biz.CreateRestaurant(c.Request.Context(), &newRestaurant)
 		if err != nil {
-			//log.Fatal(err)
 			c.JSON(http.StatusBadRequest, gin.H{"message error": err.Error()})
 			return
 		}
