@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/dachanh/food-delivery-G06/component/appctx"
 	ginrestaurant "github.com/dachanh/food-delivery-G06/module/restaurant/transport/ginrestaurant"
+	ginuser "github.com/dachanh/food-delivery-G06/module/user/transport/gin"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
@@ -27,6 +28,10 @@ func Activate() error {
 	route := gin.Default()
 	v1 := route.Group("/v1")
 	{
+		user := v1.Group("/user")
+		{
+			user.POST("", ginuser.Register(appContext))
+		}
 		restaurant := v1.Group("/restaurant")
 		{
 			restaurant.POST("", ginrestaurant.CreateRestaurant(appContext))

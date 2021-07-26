@@ -19,5 +19,6 @@ func (s *sqlStore) FindUser(ctx context.Context, conditions map[string]interface
 		}
 		return nil, err
 	}
+
 	return &user, nil
 }
