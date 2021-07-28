@@ -43,6 +43,7 @@ func (j *jwtProvider) Validate(token string) (*tokenprovider.TokenPayLoad, error
 	res, err := jwt.ParseWithClaims(token, &myClaims{}, func(tk *jwt.Token) (interface{}, error) {
 		return []byte(j.secret), nil
 	})
+	log.Println(res)
 	if err != nil {
 		return nil, tokenprovider.ErrInvalidToken
 	}

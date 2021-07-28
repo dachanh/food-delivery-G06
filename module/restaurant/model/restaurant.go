@@ -7,7 +7,7 @@ import (
 type Restaurant struct {
 	common.SQLModel
 	Name             string        `json:"name" gorm:"column:name;"`
-	OwnerID          int           `json:"owner_id" gorm:"column:owner_id""`
+	OwnerID          int           `json:"-" gorm:"column:owner_id""`
 	CityID           int           `json:"city_id"gorm:"city_id"`
 	Address          string        `json:"address" gorm:"column:addr;"`
 	Lat              float64       `json:"lat" gorm:"column:lat;"`

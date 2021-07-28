@@ -1,10 +1,12 @@
 package ginrestaurant
 
 import (
+	"github.com/dachanh/food-delivery-G06/common"
 	"github.com/dachanh/food-delivery-G06/component/appctx"
 	businessrestaurant "github.com/dachanh/food-delivery-G06/module/restaurant/business"
 	restaurantmodel "github.com/dachanh/food-delivery-G06/module/restaurant/model"
 	restaurantstorage "github.com/dachanh/food-delivery-G06/module/restaurant/storage"
+	usermodel "github.com/dachanh/food-delivery-G06/module/user/model"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -17,6 +19,9 @@ func CreateRestaurant(appContext appctx.AppContext) func(ctx *gin.Context) {
 			c.JSONP(http.StatusBadRequest, gin.H{"message error": err.Error()})
 			return
 		}
+
+		requester := c.MustGet(common.CurrentUser).(*usermodel.User)
+		newRestaurant.OwnerID = requester.ID
 		// store layer
 		store := restaurantstorage.NewSqlStore(appContext.GetMaiDBConnection())
 		// business layer
