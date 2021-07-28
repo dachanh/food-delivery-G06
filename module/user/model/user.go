@@ -23,6 +23,16 @@ type User struct {
 	Avatar    *common.Image `json:"avatar,omitempty" gorm:"column:avatar;type:json"`
 }
 
+func (u *User) GetUsedID() int {
+	return u.ID
+}
+func (u *User) GetRole() string {
+	return u.Role
+}
+func (u *User) GetEmail() string {
+	return u.Email
+}
+
 func (u User) TableName() string { return "users" }
 
 type UserCreate struct {

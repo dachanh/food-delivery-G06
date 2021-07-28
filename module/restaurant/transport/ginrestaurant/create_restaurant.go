@@ -6,7 +6,6 @@ import (
 	businessrestaurant "github.com/dachanh/food-delivery-G06/module/restaurant/business"
 	restaurantmodel "github.com/dachanh/food-delivery-G06/module/restaurant/model"
 	restaurantstorage "github.com/dachanh/food-delivery-G06/module/restaurant/storage"
-	usermodel "github.com/dachanh/food-delivery-G06/module/user/model"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -20,8 +19,8 @@ func CreateRestaurant(appContext appctx.AppContext) func(ctx *gin.Context) {
 			return
 		}
 
-		requester := c.MustGet(common.CurrentUser).(*usermodel.User)
-		newRestaurant.OwnerID = requester.ID
+		requester := c.MustGet(common.CurrentUser).(common.Requester)
+		newRestaurant.OwnerID = requester.GetUsedID()
 		// store layer
 		store := restaurantstorage.NewSqlStore(appContext.GetMaiDBConnection())
 		// business layer
