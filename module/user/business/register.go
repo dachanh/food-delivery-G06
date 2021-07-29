@@ -37,7 +37,7 @@ func (r *RegisterBusiness) Register(ctx context.Context, data *usermodel.UserCre
 	data.Salt = sail
 	data.Role = "user"
 	if err := r.registerStorage.CreateUser(ctx, data); err != nil {
-		return err
+		return common.NewUnauthorized(err)
 	}
 	return nil
 }
