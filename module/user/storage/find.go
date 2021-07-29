@@ -15,9 +15,9 @@ func (s *sqlStore) FindUser(ctx context.Context, conditions map[string]interface
 	var user usermodel.User
 	if err := db.Where(conditions).First(&user).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return nil, common.RecordNotFound
+			return nil, common.ErrDB(common.RecordNotFound)
 		}
-		return nil, err
+		return nil, common.ErrDB(err)
 	}
 
 	return &user, nil

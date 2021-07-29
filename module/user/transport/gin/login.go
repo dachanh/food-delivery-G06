@@ -8,7 +8,6 @@ import (
 	usermodel "github.com/dachanh/food-delivery-G06/module/user/model"
 	userstorage "github.com/dachanh/food-delivery-G06/module/user/storage"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 )
 
@@ -28,7 +27,6 @@ func Login(appContext appctx.AppContext) gin.HandlerFunc {
 		if err != nil {
 			panic(err)
 		}
-		log.Println(account)
 		c.JSONP(http.StatusOK, map[string]string{
 			"token":      account.Token,
 			"expiry":     string(account.Expiry),
