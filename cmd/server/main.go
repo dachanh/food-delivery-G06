@@ -28,6 +28,7 @@ func Activate() error {
 	db = db.Debug()
 	appContext := appctx.NewAppContext(db, "helloworld")
 	route := gin.Default()
+	route.Use(middleware.Recover(appContext))
 	userStore := userstorage.NewSqlStore(appContext.GetMaiDBConnection())
 	midAuthorize := middleware.RequiredAuth(appContext, userStore)
 	v1 := route.Group("/v1")
