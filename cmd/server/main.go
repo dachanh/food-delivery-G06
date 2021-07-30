@@ -54,7 +54,6 @@ func Activate() error {
 	route.GET("/ping", midAuthorize, func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "pong"})
 	})
-	route.Run()
 	je, err := jaeger.NewExporter(jaeger.Options{
 		AgentEndpoint: os.Getenv("JAEGER_AGENT_URL"),
 		Process:       jaeger.Process{ServiceName: "Food-Delivery"},
@@ -63,11 +62,12 @@ func Activate() error {
 		panic(common.ErrInternal(err))
 	}
 	trace.RegisterExporter(je)
-	trace.ApplyConfig(trace.Config{DefaultSampler: trace.ProbabilitySampler(0.2)})
+	trace.ApplyConfig(trace.Config{DefaultSampler: trace.ProbabilitySampler(1)})
 
-	http.ListenAndServe("8080", &ochttp.Handler{
+	http.ListenAndServe(":8080", &ochttp.Handler{
 		Handler: route,
 	})
+
 	return nil
 }
 

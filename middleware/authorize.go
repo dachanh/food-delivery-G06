@@ -8,6 +8,7 @@ import (
 	"github.com/dachanh/food-delivery-G06/component/tokenprovider/jwt"
 	usermodel "github.com/dachanh/food-delivery-G06/module/user/model"
 	"github.com/gin-gonic/gin"
+	"go.opencensus.io/trace"
 	"strings"
 )
 
@@ -18,6 +19,8 @@ type AuthenStore interface {
 func RequiredAuth(appCtx appctx.AppContext, authStore AuthenStore) func(c *gin.Context) {
 	tokenProvider := jwt.NewTokenJWTProvider(appCtx.SecretKey())
 	return func(c *gin.Context) {
+		_, span := trace.StartSpan(c.Request.Context(), "middleware.authorize")
+		defer span.End()
 		token, err := extractTokenHeaderString(c.GetHeader("Authorization"))
 		if err != nil {
 			panic(err)
