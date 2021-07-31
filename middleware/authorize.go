@@ -20,26 +20,30 @@ func RequiredAuth(appCtx appctx.AppContext, authStore AuthenStore) func(c *gin.C
 	tokenProvider := jwt.NewTokenJWTProvider(appCtx.SecretKey())
 	return func(c *gin.Context) {
 		_, span := trace.StartSpan(c.Request.Context(), "middleware.authorize")
-		defer span.End()
 		token, err := extractTokenHeaderString(c.GetHeader("Authorization"))
 		if err != nil {
+			span.End()
 			panic(err)
 		}
 		// extract payload get info user
 		payload, err := tokenProvider.Validate(token)
 		if err != nil {
+			span.End()
 			panic(err)
 		}
 		//  search info user use userID
 		user, err := authStore.FindUser(c.Request.Context(), map[string]interface{}{"id": payload.UserID})
 		if err != nil {
+			span.End()
 			panic(err)
 		}
 		// this method help check status and
 		if user.Status == 0 {
+			span.End()
 			panic(errors.New("user has beeb delete or banned"))
 		}
 		user.Mask(2)
+		span.End()
 		c.Set(common.CurrentUser, user)
 		c.Next()
 

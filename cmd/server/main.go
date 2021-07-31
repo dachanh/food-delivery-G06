@@ -62,7 +62,7 @@ func Activate() error {
 		panic(common.ErrInternal(err))
 	}
 	trace.RegisterExporter(je)
-	trace.ApplyConfig(trace.Config{DefaultSampler: trace.ProbabilitySampler(1)})
+	trace.ApplyConfig(trace.Config{DefaultSampler: trace.ProbabilitySampler(0.4)})
 
 	http.ListenAndServe(":8080", &ochttp.Handler{
 		Handler: route,
