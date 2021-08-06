@@ -6,7 +6,6 @@ import (
 )
 
 type DeleteStore interface {
-	GetDataWithCondition(ctx context.Context, cond map[string]interface{}) (*restaurantmodel.Restaurant, error)
 	Delete(cxt context.Context, id int) error
 	GetDataWithConditions(ctx context.Context, cond map[string]interface{}) (*restaurantmodel.Restaurant, error)
 }

@@ -12,6 +12,7 @@ import (
 
 func CreateRestaurant(appContext appctx.AppContext) func(ctx *gin.Context) {
 	return func(c *gin.Context) {
+
 		var newRestaurant restaurantmodel.RestaurantCreate
 		if err := c.ShouldBind(&newRestaurant); err != nil {
 			//log.Fatal(err)
