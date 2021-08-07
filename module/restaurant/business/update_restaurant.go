@@ -8,7 +8,7 @@ import (
 )
 
 type UpdateRestaurantStore interface {
-	GetDataWithConditions(ctx context.Context, cond map[string]interface{}) (*restaurantmodel.Restaurant, error)
+	GetDataWithCondition(ctx context.Context, cond map[string]interface{}) (*restaurantmodel.Restaurant, error)
 	Update(ctx context.Context, id int, updateData *restaurantmodel.RestaurantUpdate) error
 }
 
@@ -23,7 +23,7 @@ func NewUpdateRestaurantbiz(store UpdateRestaurantStore) *updateRestaurantBiz {
 }
 
 func (biz *updateRestaurantBiz) UpdateRestaurant(ctx context.Context, id int, data *restaurantmodel.RestaurantUpdate) error {
-	oldData, err := biz.store.GetDataWithConditions(ctx, map[string]interface{}{"id": id})
+	oldData, err := biz.store.GetDataWithCondition(ctx, map[string]interface{}{"id": id})
 	if err != nil {
 		return common.ErrDB(errors.New("error database"))
 	}

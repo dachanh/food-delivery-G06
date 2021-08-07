@@ -48,7 +48,10 @@ func Activate() error {
 		restaurant := v1.Group("/restaurant", midAuthorize)
 		{
 			restaurant.POST("", ginrestaurant.CreateRestaurant(appContext))
-			restaurant.DELETE("")
+			restaurant.PUT("/:id", ginrestaurant.UpdateRestaurant(appContext))
+			restaurant.DELETE("/:id", ginrestaurant.DeleteRestaurant(appContext))
+			restaurant.GET("/:id", ginrestaurant.GetRestaurant(appContext))
+			restaurant.GET("", ginrestaurant.ListRestaurant(appContext))
 		}
 	}
 	route.GET("/ping", midAuthorize, func(c *gin.Context) {
