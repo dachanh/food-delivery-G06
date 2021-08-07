@@ -7,7 +7,8 @@ import (
 )
 
 func (s *sqlStore) ListDataWithCondition(ctx context.Context,
-	filter *restaurantmodel.Filter, paging *common.Paging) ([]restaurantmodel.Restaurant, error) {
+	filter *restaurantmodel.Filter,
+	paging *common.Paging) ([]restaurantmodel.Restaurant, error) {
 	var result []restaurantmodel.Restaurant
 	db := s.db
 	db = db.Where("status in (?)", 1)

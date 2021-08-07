@@ -2,14 +2,14 @@ package restaurantstorage
 
 import (
 	"context"
-	"github.com/dachanh/food-delivery-G06/common"
 	restaurantmodel "github.com/dachanh/food-delivery-G06/module/restaurant/model"
 )
 
-func (s *sqlStore) GetDataWithConditions(ctx context.Context, cond map[string]interface{}) (*restaurantmodel.Restaurant, error) {
-	var data restaurantmodel.Restaurant
-	if err := s.db.Where(cond).First(&data).Error; err != nil {
-		return nil, common.ErrDB(err)
+func (s *sqlStore) Update(ctx context.Context,
+	id int,
+	updateData *restaurantmodel.RestaurantUpdate) error {
+	if err := s.db.Where("id = ?", id).Updates(updateData).Error; err != nil {
+		return err
 	}
-	return &data, nil
+	return nil
 }
