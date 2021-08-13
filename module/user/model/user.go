@@ -32,7 +32,9 @@ func (u *User) GetRole() string {
 func (u *User) GetEmail() string {
 	return u.Email
 }
-
+func (u *User) Mask(isAdmin bool) {
+	u.SQLModel.GenUID(common.DbTypeUser)
+}
 func (u User) TableName() string { return "users" }
 
 type UserCreate struct {
@@ -46,6 +48,10 @@ type UserCreate struct {
 	Role      string        `json:"role"gorm:"column:role;"`
 	Status    int           `json:"status"gorm:"column:status;"`
 	Avatar    *common.Image `json:"avatar,omitempty" gorm:"column:avatar;type:json"`
+}
+
+func (u *UserCreate) Mask(isAdmin bool) {
+	u.SQLModel.GenUID(common.DbTypeUser)
 }
 
 func (u UserCreate) TableName() string { return User{}.TableName() }

@@ -8,7 +8,8 @@ import (
 
 func (s *sqlStore) ListDataWithCondition(ctx context.Context,
 	filter *restaurantmodel.Filter,
-	paging *common.Paging) ([]restaurantmodel.Restaurant, error) {
+	paging *common.Paging,
+	moreKeys ...string) ([]restaurantmodel.Restaurant, error) {
 	var result []restaurantmodel.Restaurant
 	db := s.db
 	db = db.Where("status in (?)", 1)
@@ -18,7 +19,11 @@ func (s *sqlStore) ListDataWithCondition(ctx context.Context,
 	if err := db.Table(restaurantmodel.Restaurant{}.TableName()).Count(&paging.Total).Error; err != nil {
 		return nil, err
 	}
-	db = db.Preload("User")
+	for i := range moreKeys {
+		if moreKeys[i] == "User" {
+			db = db.Preload("User")
+		}
+	}
 	if err := db.Limit(paging.Limit).
 		Offset((paging.Page - 1) * paging.Limit).
 		Order("id desc").

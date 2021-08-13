@@ -42,7 +42,7 @@ func RequiredAuth(appCtx appctx.AppContext, authStore AuthenStore) func(c *gin.C
 			span.End()
 			panic(errors.New("user has beeb delete or banned"))
 		}
-		user.Mask(2)
+		user.Mask(false)
 		span.End()
 		c.Set(common.CurrentUser, user)
 		c.Next()

@@ -23,7 +23,7 @@ func Register(appContext appctx.AppContext) func(*gin.Context) {
 		if err := biz.Register(c.Request.Context(), &data); err != nil {
 			panic(err)
 		}
-		data.Mask(1)
+		data.Mask(false)
 		c.JSONP(http.StatusOK, map[string]string{
 			"data": data.FakeId.String(),
 		})
