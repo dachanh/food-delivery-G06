@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/dachanh/food-delivery-G06/common"
 	restaurantmodel "github.com/dachanh/food-delivery-G06/module/restaurant/model"
+	"log"
 )
 
 type DeleteResturantStore interface {
@@ -28,14 +29,18 @@ func (biz *deleteRestaurantBiz) DeleteRestaurant(ctx context.Context, id int, is
 	if err != nil {
 		return common.ErrDB(err)
 	}
+	log.Println(oldData.Status)
 	if oldData.Status == 0 {
 		return common.ErrDB(errors.New("restaurant has been deleted"))
 	}
 	if isSoft {
 		zero := 0
+		log.Println("asdsad")
+		log.Println(restaurantmodel.RestaurantUpdate{Status: &zero})
 		if err := biz.store.Update(ctx, id, &restaurantmodel.RestaurantUpdate{Status: &zero}); err != nil {
 			return common.ErrDB(err)
 		}
+		return nil
 	}
 
 	if err := biz.store.Delete(ctx, id); err != nil {
