@@ -18,7 +18,12 @@ func (s *sqlStore) ListDataWithCondition(ctx context.Context,
 	if err := db.Table(restaurantmodel.Restaurant{}.TableName()).Count(&paging.Total).Error; err != nil {
 		return nil, err
 	}
-	if err := db.Limit(paging.Limit).Offset((paging.Page - 1) * paging.Limit).Order("id desc").Find(&result).Error; err != nil {
+	db = db.Preload("User")
+	if err := db.Limit(paging.Limit).
+		Offset((paging.Page - 1) * paging.Limit).
+		Order("id desc").
+		Find(&result).
+		Error; err != nil {
 		return nil, common.ErrDB(err)
 	}
 	return result, nil
