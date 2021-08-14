@@ -31,6 +31,9 @@ func ListRestaurant(appContext appctx.AppContext) func(ctx *gin.Context) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
+		for it := range result {
+			result[it].Mask(false)
+		}
 		c.JSON(http.StatusOK, gin.H{"data": result, "paging": paging, "filter": filter})
 	}
 }

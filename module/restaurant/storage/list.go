@@ -31,5 +31,6 @@ func (s *sqlStore) ListDataWithCondition(ctx context.Context,
 		Error; err != nil {
 		return nil, common.ErrDB(err)
 	}
+
 	return result, nil
 }

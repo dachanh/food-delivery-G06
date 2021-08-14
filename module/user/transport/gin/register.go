@@ -8,6 +8,7 @@ import (
 	userstorage "github.com/dachanh/food-delivery-G06/module/user/storage"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 func Register(appContext appctx.AppContext) func(*gin.Context) {
@@ -23,9 +24,9 @@ func Register(appContext appctx.AppContext) func(*gin.Context) {
 		if err := biz.Register(c.Request.Context(), &data); err != nil {
 			panic(err)
 		}
-		data.Mask(false)
+		//data.Mask(false)
 		c.JSONP(http.StatusOK, map[string]string{
-			"data": data.FakeId.String(),
+			"data": strconv.Itoa(data.ID),
 		})
 	}
 }

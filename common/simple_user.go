@@ -12,6 +12,7 @@ type SimpleUser struct {
 func (SimpleUser) TableName() string {
 	return "users"
 }
+
 func (u *SimpleUser) Mask(isAdmin bool) {
 	u.GenUID(DbTypeUser)
 }

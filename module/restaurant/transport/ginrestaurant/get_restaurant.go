@@ -26,6 +26,7 @@ func GetRestaurant(appContext appctx.AppContext) func(ctx *gin.Context) {
 			c.JSON(http.StatusBadRequest, gin.H{"message error": err.Error()})
 			return
 		}
+		data.Mask(false)
 		c.JSON(http.StatusOK, gin.H{"data": data})
 	}
 }

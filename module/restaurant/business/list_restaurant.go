@@ -29,5 +29,6 @@ func (biz *listRestaurantbiz) ListDataWithCondition(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
 	return result, nil
 }
