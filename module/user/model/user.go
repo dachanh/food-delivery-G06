@@ -33,9 +33,9 @@ func (u *User) GetEmail() string {
 	return u.Email
 }
 
-//func (u *User) Mask(isAdmin bool) {
-//	u.SQLModel.GenUID(common.DbTypeUser)
-//}
+func (u *User) Mask(isAdmin bool) {
+	u.SQLModel.GenUID(common.DbTypeUser)
+}
 func (u User) TableName() string { return "users" }
 
 type UserCreate struct {
@@ -51,9 +51,9 @@ type UserCreate struct {
 	Avatar    *common.Image `json:"avatar,omitempty" gorm:"column:avatar;type:json"`
 }
 
-//func (u *UserCreate) Mask(isAdmin bool) {
-//	u.SQLModel.GenUID(common.DbTypeUser)
-//}
+func (u *UserCreate) Mask(isAdmin bool) {
+	u.SQLModel.GenUID(common.DbTypeUser)
+}
 
 func (u UserCreate) TableName() string { return User{}.TableName() }
 

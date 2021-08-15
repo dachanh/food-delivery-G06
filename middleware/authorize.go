@@ -40,9 +40,9 @@ func RequiredAuth(appCtx appctx.AppContext, authStore AuthenStore) func(c *gin.C
 		// this method help check status and
 		if user.Status == 0 {
 			span.End()
-			panic(errors.New("user has beeb delete or banned"))
+			panic(errors.New("user has been delete or banned"))
 		}
-		//user.Mask(false)
+		user.Mask(false)
 		span.End()
 		c.Set(common.CurrentUser, user)
 		c.Next()

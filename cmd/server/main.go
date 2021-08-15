@@ -5,6 +5,7 @@ import (
 	"github.com/dachanh/food-delivery-G06/component/appctx"
 	"github.com/dachanh/food-delivery-G06/middleware"
 	ginrestaurant "github.com/dachanh/food-delivery-G06/module/restaurant/transport/ginrestaurant"
+	ginrestaurantlike "github.com/dachanh/food-delivery-G06/module/restaurantlikes/transport/gin"
 	userstorage "github.com/dachanh/food-delivery-G06/module/user/storage"
 	ginuser "github.com/dachanh/food-delivery-G06/module/user/transport/gin"
 	"github.com/gin-gonic/gin"
@@ -52,6 +53,7 @@ func Activate() error {
 			restaurant.DELETE("/:id", ginrestaurant.DeleteRestaurant(appContext))
 			restaurant.GET("/:id", ginrestaurant.GetRestaurant(appContext))
 			restaurant.GET("", ginrestaurant.ListRestaurant(appContext))
+			restaurant.POST("/:id/like", ginrestaurantlike.RestaurantLike(appContext))
 		}
 	}
 	route.GET("/ping", midAuthorize, func(c *gin.Context) {
