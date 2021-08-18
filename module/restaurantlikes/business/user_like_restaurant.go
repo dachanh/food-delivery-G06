@@ -6,7 +6,7 @@ import (
 )
 
 type RestaurantlikeStore interface {
-	CreateRestaurantLikes(ctx context.Context, data *restaurantlikesmodel.Like) error
+	CreateUserLikeRestaurant(ctx context.Context, data *restaurantlikesmodel.Like) error
 }
 
 type restaurantlikebiz struct {
@@ -20,7 +20,7 @@ func NewRestaurantlikeBiz(store RestaurantlikeStore) *restaurantlikebiz {
 }
 
 func (biz *restaurantlikebiz) RestaurantLike(ctx context.Context, data *restaurantlikesmodel.Like) error {
-	err := biz.store.CreateRestaurantLikes(ctx, data)
+	err := biz.store.CreateUserLikeRestaurant(ctx, data)
 	if err != nil {
 		return err
 	}

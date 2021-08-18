@@ -6,7 +6,7 @@ import (
 	restaurantlikesmodel "github.com/dachanh/food-delivery-G06/module/restaurantlikes/model"
 )
 
-func (s *sqlStore) CreateRestaurantLikes(ctx context.Context, data *restaurantlikesmodel.Like) error {
+func (s *sqlStore) CreateUserLikeRestaurant(ctx context.Context, data *restaurantlikesmodel.Like) error {
 	db := s.db.Begin()
 	if err := db.Table(data.TableName()).Create(data).Error; err != nil {
 		db.Rollback()

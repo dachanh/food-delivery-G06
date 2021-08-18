@@ -7,7 +7,7 @@ type SQLModel struct {
 	FakeId    UID        `json:"id" gorm:"-"`
 	CreatedAt *time.Time `json:"created_at" gorm:"column:created_at;"`
 	UpdatedAt *time.Time `json:"updated_at" gorm:"column:updated_at;"`
-	Status    int        `json:"status" gorm:"column:status;default:1;"`
+	Status    int        `json:"-" gorm:"column:status;default:1;"`
 }
 
 func (sm *SQLModel) GenUID(objType int) {
