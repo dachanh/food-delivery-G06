@@ -4,13 +4,13 @@ import (
 	"github.com/dachanh/food-delivery-G06/common"
 	"github.com/dachanh/food-delivery-G06/component/appctx"
 	"github.com/dachanh/food-delivery-G06/middleware"
-	ginrestaurant "github.com/dachanh/food-delivery-G06/module/restaurant/transport/ginrestaurant"
+	"github.com/dachanh/food-delivery-G06/module/restaurant/transport/ginrestaurant"
 	ginrestaurantlike "github.com/dachanh/food-delivery-G06/module/restaurantlikes/transport/gin"
 	userstorage "github.com/dachanh/food-delivery-G06/module/user/storage"
 	ginuser "github.com/dachanh/food-delivery-G06/module/user/transport/gin"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	jaeger "go.opencensus.io/exporter/jaeger"
+	"go.opencensus.io/exporter/jaeger"
 	"go.opencensus.io/plugin/ochttp"
 	"go.opencensus.io/trace"
 	"gorm.io/driver/mysql"
@@ -54,6 +54,7 @@ func Activate() error {
 			restaurant.GET("/:id", ginrestaurant.GetRestaurant(appContext))
 			restaurant.GET("", ginrestaurant.ListRestaurant(appContext))
 			restaurant.POST("/:id/like", ginrestaurantlike.RestaurantLike(appContext))
+			restaurant.DELETE("/:id/dislike", ginrestaurantlike.RestaurantDislike(appContext))
 		}
 	}
 	route.GET("/ping", midAuthorize, func(c *gin.Context) {
