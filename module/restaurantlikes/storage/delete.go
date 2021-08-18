@@ -16,12 +16,15 @@ func (s *sqlStore) DeleteUserDislikeRestaurant(ctx context.Context, restaurantId
 		if err == gorm.ErrRecordNotFound {
 			return common.ErrDB(common.RecordNotFound)
 		}
+		db.Rollback()
 		return common.ErrDB(err)
 	}
 	if err := db.Table(restaurantlikesmodel.Like{}.TableName()).
 		Where("user_id = ? and restaurant_id =?", userId, restaurantId).
 		Delete(nil).Error; err != nil {
-		db.Rollback()
+		return common.ErrDB(err)
+	}
+	if err := db.Commit().Error; err != nil {
 		return common.ErrDB(err)
 	}
 	return nil
