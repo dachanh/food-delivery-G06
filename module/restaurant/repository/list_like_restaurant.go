@@ -18,18 +18,18 @@ type GetLikedCountStore interface {
 }
 
 type listRestaurantLikeCountRepo struct {
-	restaurantstore ListRestaurantStore
-	likedstore      GetLikedCountStore
+	restaurantstore      ListRestaurantStore
+	likedrestaurantstore GetLikedCountStore
 }
 
-func NewListRestaurntLikeCountRepo(restaurantstore ListRestaurantStore, likedstore GetLikedCountStore) *listRestaurantLikeCountRepo {
+func NewListRestaurntLikeCountRepo(restaurantstore ListRestaurantStore, likedrestaurantstore GetLikedCountStore) *listRestaurantLikeCountRepo {
 	return &listRestaurantLikeCountRepo{
-		restaurantstore: restaurantstore,
-		likedstore:      likedstore,
+		restaurantstore:      restaurantstore,
+		likedrestaurantstore: likedrestaurantstore,
 	}
 }
 
-func (biz *listRestaurantLikeCountRepo) GetRestaurantLikeList(ctx context.Context,
+func (biz *listRestaurantLikeCountRepo) ListRestaurant(ctx context.Context,
 	filter *restaurantmodel.Filter,
 	paging *common.Paging,
 	moreKeys ...string) ([]restaurantmodel.Restaurant, error) {
@@ -38,6 +38,16 @@ func (biz *listRestaurantLikeCountRepo) GetRestaurantLikeList(ctx context.Contex
 	if err != nil {
 		return nil, err
 	}
+	resIDs := make([]int, len(result))
 
+	for i := range resIDs {
+		resIDs[i] = result[i].ID
+	}
+	if mapResLiked, err := biz.likedrestaurantstore.GetRestaurantLike(ctx, resIDs); err == nil {
+		for i := range result {
+			result[i].LikeCount = mapResLiked[result[i].ID]
+			result[i].User.Mask(false)
+		}
+	}
 	return result, nil
 }

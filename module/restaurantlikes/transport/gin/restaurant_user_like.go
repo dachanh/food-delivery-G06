@@ -11,18 +11,17 @@ func ListUsers(appCtx appctx.AppContext) gin.HandlerFunc {
 		//if err != nil {
 		//	panic(common.ErrInvalidRequest(err))
 		//}
-		//filter := restaurantlikesmodel.Filter{
-		//	RestaurantID: int(uid.GetLocalID()),
-		//}
+		//filter := restaurantmodel.Filter{}
 		//var paging common.Paging
 		//
 		//if err := c.ShouldBind(&paging); err != nil {
 		//	panic(common.ErrInvalidRequest(err))
 		//}
 		//paging.Process()
-		//store := restaurantstorage.NewSqlStore(appCtx.GetMaiDBConnection())
+		//
+		//restaurantStore := restaurantstorage.NewSqlStore(appCtx.GetMaiDBConnection())
 		//likeStore := restaurantlikesstorage.NewSqlStore(appCtx.GetMaiDBConnection())
-		//result, err := biz
-
+		//repo := repositoryrestaurant.NewListRestaurntLikeCountRepo(restaurantStore, likeStore)
+		//biz := businessrestaurant.NewListRestaurantbiz(repo)
 	}
 }

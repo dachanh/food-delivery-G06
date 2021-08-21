@@ -9,7 +9,7 @@ import (
 func (s *sqlStore) GetRestaurantLike(ctx context.Context, ids []int) (map[int]int, error) {
 	result := make(map[int]int)
 	type sqlData struct {
-		RestaurantID int `gorm:"column:restaurnt_id;"`
+		RestaurantID int `gorm:"column:restaurant_id;"`
 		LikeCount    int `gorm:"column:count;"`
 	}
 	var listLike []sqlData

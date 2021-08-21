@@ -6,29 +6,28 @@ import (
 	restaurantmodel "github.com/dachanh/food-delivery-G06/module/restaurant/model"
 )
 
-type ListRestaurantStore interface {
-	ListDataWithCondition(ctx context.Context,
+type ListRestaurantRepo interface {
+	ListRestaurant(ctx context.Context,
 		filter *restaurantmodel.Filter,
 		paging *common.Paging,
 		moreKeys ...string) ([]restaurantmodel.Restaurant, error)
 }
 
 type listRestaurantbiz struct {
-	store ListRestaurantStore
+	repo ListRestaurantRepo
 }
 
-func NewListRestaurantbiz(store ListRestaurantStore) *listRestaurantbiz {
+func NewListRestaurantbiz(repo ListRestaurantRepo) *listRestaurantbiz {
 	return &listRestaurantbiz{
-		store: store,
+		repo: repo,
 	}
 }
-func (biz *listRestaurantbiz) ListDataWithCondition(ctx context.Context,
+func (biz *listRestaurantbiz) ListRestaurant(ctx context.Context,
 	filter *restaurantmodel.Filter,
 	paging *common.Paging) ([]restaurantmodel.Restaurant, error) {
-	result, err := biz.store.ListDataWithCondition(ctx, filter, paging, "User")
+	result, err := biz.repo.ListRestaurant(ctx, filter, paging, "User", "LikedCount")
 	if err != nil {
 		return nil, err
 	}
-
 	return result, nil
 }
